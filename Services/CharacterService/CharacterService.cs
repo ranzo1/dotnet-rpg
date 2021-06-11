@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +30,25 @@ namespace dotnet_rpg.Services.CharacterService
             return serviceResponse;
         }
 
+        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+        {
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            try
+            {
+                Character character = characters.First(c => c.Id == id);
+                characters.Remove(character);
+
+                serviceResponse.Data = characters.Select(c => mapper.Map<GetCharacterDto>(c)).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
+            return serviceResponse;
+        }
+
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
@@ -40,6 +60,31 @@ namespace dotnet_rpg.Services.CharacterService
         {
             var serviceResponse = new ServiceResponse<GetCharacterDto>();
             serviceResponse.Data = mapper.Map<GetCharacterDto>(characters.FirstOrDefault(c => c.Id == id));
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
+        {
+            var serviceResponse = new ServiceResponse<GetCharacterDto>();
+            try
+            {
+                Character character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+
+                character.Name = updatedCharacter.Name;
+                character.HitPoints = updatedCharacter.HitPoints;
+                character.Strength = updatedCharacter.Strength;
+                character.Defense = updatedCharacter.Defense;
+                character.Intelligence = updatedCharacter.Intelligence;
+                character.Class = updatedCharacter.Class;
+
+                serviceResponse.Data = mapper.Map<GetCharacterDto>(character);
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
             return serviceResponse;
         }
     }
