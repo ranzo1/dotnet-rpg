@@ -33,6 +33,8 @@ namespace dotnet_rpg
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "dotnet_rpg", Version = "v1" });
             });
+            //Da bi maper funkcionisao, potrebno ga je registrovati u ovoj klasi
+            services.AddAutoMapper(typeof(Startup));
             //Naglasavamo da ako kontroler zeli da inject-uje ICharacterService,
             //njegova implementaciona klasa ce biti CharacterService
             //benefit ovoga jeste da mozemo vrlo lako da promenimo implementacionu klasu ICharacterService

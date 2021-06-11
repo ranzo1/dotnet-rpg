@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using dotnet_rpg.Controllers.Dtos.Character;
 using dotnet_rpg.Models;
 
 namespace dotnet_rpg.Services.CharacterService
@@ -12,20 +14,33 @@ namespace dotnet_rpg.Services.CharacterService
             new Character {Id = 1, Name = "Sam"}
         };
 
-        public async Task<List<Character>> AddCharacter(Character newCharacter)
+        private readonly IMapper mapper;
+
+        public CharacterService(IMapper mapper)
         {
-            characters.Add(newCharacter);
-            return characters;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Character>> GetAllCharacters()
+        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            return characters;
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            characters.Add(mapper.Map<Character>(newCharacter));
+            serviceResponse.Data = characters.Select(c => mapper.Map<GetCharacterDto>(c)).ToList();
+            return serviceResponse;
         }
 
-        public async Task<Character> GetCharacterById(int id)
+        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
-            return characters.FirstOrDefault(c => c.Id == id);
+            var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+            serviceResponse.Data = characters.Select(c => mapper.Map<GetCharacterDto>(c)).ToList();
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
+        {
+            var serviceResponse = new ServiceResponse<GetCharacterDto>();
+            serviceResponse.Data = mapper.Map<GetCharacterDto>(characters.FirstOrDefault(c => c.Id == id));
+            return serviceResponse;
         }
     }
 }
