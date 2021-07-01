@@ -7,6 +7,7 @@ using dotnet_rpg.Controllers.Dtos.Character;
 
 namespace dotnet_rpg.Controllers
 {
+    //ApiController znaci da moze da mu se pristupi preko url a samo sa nazivom Character
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase

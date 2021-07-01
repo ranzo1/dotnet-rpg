@@ -43,6 +43,8 @@ namespace dotnet_rpg
             services.AddScoped<ICharacterService, CharacterService>();
             //postoje jos i AddTransient - provajduje novu instancu svakom kontroleru i servisu, cak i u okviru istog requesta
             //              AddSingleton - samo jedna instanca za sve requestove
+            
+            services.AddScoped<IAuthRepository,AuthRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
