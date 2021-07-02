@@ -10,6 +10,7 @@ namespace dotnet_rpg.Data
 
         }
 
+        // Na osnovu ovog polja zna koje tabele treba da kreira u bazi
         public DbSet<Character> Characters { get; set; }
 
         public DbSet<User> Users { get; set; }
